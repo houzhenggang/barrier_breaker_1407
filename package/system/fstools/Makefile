@@ -8,19 +8,19 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=fstools
-PKG_VERSION:=2014-06-22
+PKG_VERSION:=2014-12-01
 
 PKG_RELEASE=$(PKG_SOURCE_VERSION)
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=git://nbd.name/fstools.git
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
-PKG_SOURCE_VERSION:=e0430f5c62f367e5a8e02755412977b02c3fc45e
+PKG_SOURCE_VERSION:=e65232440111b8f6654218033431e5bdd20525c2
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_VERSION).tar.gz
 CMAKE_INSTALL:=1
 PKG_CHECK_FORMAT_SECURITY:=0
 
-PKG_LICENSE:=GPLv2
+PKG_LICENSE:=GPL-2.0
 PKG_LICENSE_FILES:=
 
 PKG_USE_MIPS16:=0
@@ -60,7 +60,8 @@ define Package/block-mount/install
 
 	$(INSTALL_BIN) ./files/fstab.init $(1)/etc/init.d/fstab
 	$(INSTALL_DATA) ./files/fstab.default $(1)/etc/uci-defaults/10-fstab
-	$(INSTALL_DATA) ./files/mount.hotplug $(1)/etc/hotplug.d/block/10-mount
+	$(INSTALL_DATA) ./files/automount.hotplug $(1)/etc/hotplug.d/block/10-auto-mount
+	$(INSTALL_DATA) ./files/mount.hotplug $(1)/etc/hotplug.d/block/11-mount
 
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/sbin/block $(1)/sbin/
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/lib/libblkid-tiny.so $(1)/lib/
