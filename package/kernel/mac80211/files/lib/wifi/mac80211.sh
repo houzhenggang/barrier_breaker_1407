@@ -102,15 +102,16 @@ config wifi-device  radio$devidx
 	option hwmode	11${mode_band}
 $dev_id
 $ht_capab
-	# REMOVE THIS LINE TO ENABLE WIFI:
-	option disabled 1
+	option noscan   1
+	option country CN
 
 config wifi-iface
 	option device   radio$devidx
 	option network  lan
 	option mode     ap
-	option ssid     OpenWrt
+	option ssid     OpenWrt${ssid_5ghz}-$(cat /sys/class/ieee80211/${dev}/macaddress | awk -F ":" '{print $4""$5""$6 }'| tr a-z A-Z)
 	option encryption none
+	option wds 1
 
 EOF
 	devidx=$(($devidx + 1))
