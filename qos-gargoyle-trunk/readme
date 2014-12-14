@@ -1,0 +1,17 @@
+1、打内核补丁：
+   3.10.xx打补丁指令：patch -p0 <10-imq.patch
+   3.14.xx打补丁指令：patch -p0 <11-imq.patch
+
+2、执行netfilter-match-modules/integrate_netfilter_modules.sh。
+（sh   integrate_netfilter_modules.sh    trunk源码目录     integrate_netfilter_modules.sh所在目录），生成weburl、webmon、timerange、bandwidth补丁。
+比如我的trunk目录在/mnt/files下。我的命令是这样的：
+sh /home/kafei/OpenWrt-14.07/qos-gargoyle-trunk/netfilter-match-modules/integrate_netfilter_modules.sh /home/kafei/OpenWrt-14.07 /home/kafei/OpenWrt-14.07/qos-gargoyle-trunk/netfilter-match-modules
+
+3、然后
+   ./scripts/feeds install -a    //命令即可将添加的文件安装到菜单内。
+
+6、执行make/menuconfig，在luci菜单下的application目录下，可以找到luci-app-qos_gargoyle，选中即可以添加石像鬼qos，以及其所依赖的所有文件。
+
+源码及添加方法来自：by 明月永在  qq 273584038
+
+石像鬼QOS默认设置的限制参数为8MADSL电信线路。
