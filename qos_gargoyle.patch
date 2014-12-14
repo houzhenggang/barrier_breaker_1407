@@ -1,0 +1,56 @@
+--- package/network/utils/qos-gargoyle/Makefile
++++ package/network/utils/qos-gargoyle/Makefile
+@@ -49,9 +49,7 @@
+ 	$(INSTALL_DIR) $(1)/etc/hotplug.d/iface
+ 	$(INSTALL_DIR) $(1)/etc/config
+ 	
+-	$(INSTALL_BIN) ./files/qos_gargoyle.init $(1)/etc/init.d/qos_gargoyle
+ 	$(INSTALL_BIN) ./files/qos_gargoyle.hotplug $(1)/etc/hotplug.d/iface/23-qos_gargoyle
+-	$(INSTALL_DATA) ./files/qos_gargoyle.conf $(1)/etc/config/qos_gargoyle
+ 
+ 	$(INSTALL_DIR) $(1)/usr/sbin
+ 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/qosmon $(1)/usr/sbin/qosmon
+--- package/network/utils/gargoyle-firewall-util/files/gargoyle_firewall_util.sh	2014-04-14 12:21:59.000000000 +0800
++++ package/network/utils/gargoyle-firewall-util/files/gargoyle_firewall_util.sh	2014-05-16 11:57:30.971954829 +0800
+@@ -1,7 +1,7 @@
+ # Copyright Eric Bishop, 2008-2010
+ # This is free software licensed under the terms of the GNU GPL v2.0
+ #
+-. /etc/functions.sh
++. /lib/functions.sh
+ include /lib/network
+ 
+ ra_mask="0x0080"
+--- package/network/utils/qos-gargoyle/files/qos_gargoyle.init
++++ package/network/utils/qos-gargoyle/files/qos_gargoyle.init
+@@ -295,7 +295,7 @@
+ 	# Now, load/insert necessary kernel modules
+ 	# The following packages are required for the modules:
+ 	rmmod  imq >&- 2>&-
+-	insmod imq numdevs=1 #hook_chains="INPUT,FORWARD" hook_tables="mangle,mangle" >&- 2>&-
++	insmod imq numdevs=1  >&- 2>&-
+ 	ip link set dev imq0 mtu 1500
+ 
+ 	insmod cls_fw >&- 2>&-
+--- package/network/utils/gargoyle-firewall-util/files/gargoyle_firewall_util.sh 
++++ package/network/utils/gargoyle-firewall-util/files/gargoyle_firewall_util.sh 
+@@ -478,7 +478,7 @@
+ 		ifconfig imq0 down  >/dev/null 2>&1
+ 		ifconfig imq1 down  >/dev/null 2>&1
+ 		rmmod  imq          >/dev/null 2>&1
+-		insmod imq numdevs=1 hook_chains="INPUT,FORWARD" hook_tables="mangle,mangle" >/dev/null 2>&1
++		insmod imq numdevs=1  >/dev/null 2>&1
+ 		ip link set imq0 up
+ 
+ 		#egress/upload
+--- feeds/luci/applications/luci-qos_gargoyle/root/usr/bin/qos_gargoyle
++++ feeds/luci/applications/luci-qos_gargoyle/root/usr/bin/qos_gargoyle
+@@ -294,7 +294,7 @@
+ 	# Now, load/insert necessary kernel modules
+ 	# The following packages are required for the modules:
+ 	rmmod  imq >&- 2>&-
+-	insmod imq numdevs=1 hook_chains="INPUT,FORWARD" hook_tables="mangle,mangle" >&- 2>&-
++	insmod imq numdevs=1  >&- 2>&-
+ 	ip link set dev imq0 mtu 1500
+ 
+ 	insmod cls_fw >&- 2>&-
