@@ -8,14 +8,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dnsmasq
-PKG_VERSION:=2.71
-PKG_RELEASE:=4
+PKG_VERSION:=2.66
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=http://thekelleys.org.uk/dnsmasq
-PKG_MD5SUM:=15a68f7f6cc0119e843f67d2f79598f1
 
-PKG_LICENSE:=GPLv2
+PKG_LICENSE:=GPL-2.0
 PKG_LICENSE_FILES:=COPYING
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(BUILD_VARIANT)/$(PKG_NAME)-$(PKG_VERSION)
@@ -112,11 +111,7 @@ endef
 
 Package/dnsmasq-dhcpv6/install = $(Package/dnsmasq/install)
 
-define Package/dnsmasq-full/install
-$(call Package/dnsmasq/install,$(1))
-	$(INSTALL_DIR) $(1)/usr/share/dnsmasq
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/trust-anchors.conf $(1)/usr/share/dnsmasq
-endef
+Package/dnsmasq-full/install = $(Package/dnsmasq/install)
 
 $(eval $(call BuildPackage,dnsmasq))
 $(eval $(call BuildPackage,dnsmasq-dhcpv6))
