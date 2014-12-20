@@ -1,0 +1,20 @@
+#!/bin/sh
+
+IFACE="$1"
+LOCAL_ADDR="$4"
+IFNAME="pptp-mujjus"
+TABLE_ID="mujj"
+PREF="100"
+FWMARK="100"
+
+if [ "$IFACE" != "$IFNAME" ]; then
+	exit 0
+fi
+
+logger "$IFNAME policy routing stoping..."
+
+iptables -t mangle -D PREROUTING -d $LOCAL_ADDR -j RETURN
+ip rule del fwmark $FWMARK lookup $TABLE_ID pref $PREF
+ipset flush rtbl
+
+logger "$IFNAME policy routing is down."
